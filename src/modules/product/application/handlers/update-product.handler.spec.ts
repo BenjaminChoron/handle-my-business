@@ -2,6 +2,7 @@ import { UpdateProductHandler } from './update-product.handler';
 import { UpdateProductCommand } from '../commands/update-product.command';
 import { ProductRepository } from '../../domain/repositories/product.repository';
 import { Product } from '../../domain/entities/product.entity';
+import { ProductNotFoundException } from '../../domain/exceptions/product.exceptions';
 
 describe('UpdateProductHandler', () => {
   let handler: UpdateProductHandler;
@@ -46,7 +47,7 @@ describe('UpdateProductHandler', () => {
     expect(productRepository.save).toHaveBeenCalledWith(existingProduct);
   });
 
-  it('should throw an error if the product does not exist', async () => {
+  it('should throw ProductNotFoundException if product does not exist', async () => {
     productRepository.findById.mockResolvedValue(null);
 
     const command = new UpdateProductCommand(
@@ -57,6 +58,11 @@ describe('UpdateProductHandler', () => {
       10,
     );
 
-    await expect(handler.execute(command)).rejects.toThrow('Product not found');
+    await expect(handler.execute(command)).rejects.toThrow(
+      'Product with id 1 not found',
+    );
+    await expect(handler.execute(command)).rejects.toThrow(
+      ProductNotFoundException,
+    );
   });
 });
