@@ -1,0 +1,62 @@
+import { UpdateProductHandler } from './update-product.handler';
+import { UpdateProductCommand } from '../commands/update-product.command';
+import { ProductRepository } from '../../domain/repositories/product.repository';
+import { Product } from '../../domain/entities/product.entity';
+
+describe('UpdateProductHandler', () => {
+  let handler: UpdateProductHandler;
+  let productRepository: jest.Mocked<ProductRepository>;
+
+  beforeEach(() => {
+    productRepository = {
+      save: jest.fn(),
+      findById: jest.fn(),
+      findAll: jest.fn(),
+      deleteById: jest.fn(),
+    };
+
+    handler = new UpdateProductHandler(productRepository);
+  });
+
+  it('should update a product if it exists', async () => {
+    const existingProduct = new Product(
+      '1',
+      'Old Name',
+      'Old Description',
+      50,
+      5,
+      new Date(),
+      new Date(),
+    );
+    productRepository.findById.mockResolvedValue(existingProduct);
+
+    const command = new UpdateProductCommand(
+      '1',
+      'New Name',
+      'New Description',
+      100,
+      10,
+    );
+    await handler.execute(command);
+
+    expect(existingProduct.name).toBe('New Name');
+    expect(existingProduct.description).toBe('New Description');
+    expect(existingProduct.price).toBe(100);
+    expect(existingProduct.stock).toBe(10);
+    expect(productRepository.save).toHaveBeenCalledWith(existingProduct);
+  });
+
+  it('should throw an error if the product does not exist', async () => {
+    productRepository.findById.mockResolvedValue(null);
+
+    const command = new UpdateProductCommand(
+      '1',
+      'New Name',
+      'New Description',
+      100,
+      10,
+    );
+
+    await expect(handler.execute(command)).rejects.toThrow('Product not found');
+  });
+});
