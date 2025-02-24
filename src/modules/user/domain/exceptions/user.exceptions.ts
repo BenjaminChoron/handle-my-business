@@ -4,3 +4,17 @@ export class UserNotFoundException extends Error {
     this.name = 'UserNotFoundException';
   }
 }
+
+export class InvalidEmailException extends Error {
+  constructor() {
+    super('Invalid email');
+    this.name = 'InvalidEmailException';
+  }
+}
+
+export class WeakPasswordException extends Error {
+  constructor() {
+    super('Password is too weak');
+    this.name = 'WeakPasswordException';
+  }
+}
