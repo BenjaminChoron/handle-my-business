@@ -3,91 +3,240 @@
     "name": "Handle My Business API",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "exec": [
+          "if (pm.collectionVariables.get('accessToken')) {",
+          "    pm.request.headers.upsert({",
+          "        key: 'Authorization',",
+          "        value: 'Bearer ' + pm.collectionVariables.get('accessToken')",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ],
   "item": [
     {
-      "name": "List Products",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/products?page=1&limit=10",
-          "host": ["{{baseUrl}}"],
-          "path": ["products"],
-          "query": [
-            {
-              "key": "page",
-              "value": "1"
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/users/register",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "register"]
             },
-            {
-              "key": "limit",
-              "value": "10"
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Pa$$w0rd!\"\n}"
             }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Get Product",
-      "request": {
-        "method": "GET",
-        "url": {
-          "raw": "{{baseUrl}}/products/{{productId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["products", "{{productId}}"]
-        }
-      }
-    },
-    {
-      "name": "Create Product",
-      "request": {
-        "method": "POST",
-        "url": {
-          "raw": "{{baseUrl}}/products",
-          "host": ["{{baseUrl}}"],
-          "path": ["products"]
-        },
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
           }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"A sample product description\",\n  \"price\": 29.99,\n  \"stock\": 100\n}"
-        }
-      }
-    },
-    {
-      "name": "Update Product",
-      "request": {
-        "method": "PUT",
-        "url": {
-          "raw": "{{baseUrl}}/products/{{productId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["products", "{{productId}}"]
         },
-        "header": [
-          {
-            "key": "Content-Type",
-            "value": "application/json"
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "if (pm.response.code === 200) {",
+                  "    const jsonResponse = pm.response.json();",
+                  "    pm.collectionVariables.set('accessToken', jsonResponse.accessToken);",
+                  "}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/users/login",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "login"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@example.com\",\n  \"password\": \"Pa$$w0rd!\"\n}"
+            }
           }
-        ],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"name\": \"Updated Product\",\n  \"description\": \"An updated product description\",\n  \"price\": 39.99,\n  \"stock\": 50\n}"
         }
-      }
+      ]
     },
     {
-      "name": "Delete Product",
-      "request": {
-        "method": "DELETE",
-        "url": {
-          "raw": "{{baseUrl}}/products/{{productId}}",
-          "host": ["{{baseUrl}}"],
-          "path": ["products", "{{productId}}"]
+      "name": "Products",
+      "item": [
+        {
+          "name": "List Products (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/products?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Product (Public)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          }
+        },
+        {
+          "name": "Create Product (Auth)",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/products",
+              "host": ["{{baseUrl}}"],
+              "path": ["products"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Sample Product\",\n  \"description\": \"A sample product description\",\n  \"price\": 29.99,\n  \"stock\": 100\n}"
+            }
+          }
+        },
+        {
+          "name": "Update Product (Auth)",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Updated Product\",\n  \"description\": \"An updated product description\",\n  \"price\": 39.99,\n  \"stock\": 50\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete Product (Auth)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/products/{{productId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["products", "{{productId}}"]
+            }
+          }
         }
-      }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "List Users (Admin)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users?page=1&limit=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["users"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get User (Auth)",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        },
+        {
+          "name": "Update User Role (Admin)",
+          "request": {
+            "method": "PATCH",
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}/role",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}", "role"]
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"role\": \"ADMIN\"\n}"
+            }
+          }
+        },
+        {
+          "name": "Delete User (Admin)",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/users/{{userId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["users", "{{userId}}"]
+            }
+          }
+        }
+      ]
     }
   ],
   "variable": [
@@ -97,8 +246,18 @@
       "type": "string"
     },
     {
+      "key": "accessToken",
+      "value": "",
+      "type": "string"
+    },
+    {
       "key": "productId",
       "value": "your-product-id",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "your-user-id",
       "type": "string"
     }
   ]
