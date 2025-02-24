@@ -1,7 +1,7 @@
 import { RegisterUserHandler } from './register-user.handler';
 import { RegisterUserCommand } from '../commands/register-user.command';
-import { UserRepository } from 'src/modules/user/domain/repositories/user.repository';
-import { UserAlreadyExistsException } from 'src/modules/user/domain/exceptions/user.exceptions';
+import { UserRepository } from '../../../../modules/user/domain/repositories/user.repository';
+import { UserAlreadyExistsException } from '../../../../modules/user/domain/exceptions/user.exceptions';
 
 describe('RegisterUserHandler', () => {
   let handler: RegisterUserHandler;
