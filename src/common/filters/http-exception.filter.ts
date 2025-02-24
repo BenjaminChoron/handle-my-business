@@ -11,10 +11,9 @@ import {
   InvalidProductDataException,
 } from '../../modules/product/domain/exceptions/product.exceptions';
 import {
-  InvalidEmailException,
   InvalidLoginCredentialsException,
+  UserAlreadyExistsException,
   UserNotFoundException,
-  WeakPasswordException,
 } from 'src/modules/user/domain/exceptions/user.exceptions';
 
 @Catch()
@@ -33,8 +32,7 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       status = HttpStatus.NOT_FOUND;
       message = exception.message;
     } else if (
-      exception instanceof InvalidEmailException ||
-      exception instanceof WeakPasswordException ||
+      exception instanceof UserAlreadyExistsException ||
       exception instanceof InvalidProductDataException ||
       exception instanceof InvalidLoginCredentialsException
     ) {

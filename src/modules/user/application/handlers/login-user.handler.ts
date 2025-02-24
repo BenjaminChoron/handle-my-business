@@ -34,6 +34,7 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
 
   async execute(command: LoginUserCommand): Promise<{ accessToken: string }> {
     const user = await this.userRepository.findByEmail(command.email);
+
     if (!user) {
       throw new InvalidLoginCredentialsException();
     }
@@ -42,6 +43,7 @@ export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {
       command.password,
       user.password,
     );
+
     if (!isPasswordValid) {
       throw new InvalidLoginCredentialsException();
     }

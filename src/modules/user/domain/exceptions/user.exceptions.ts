@@ -5,17 +5,10 @@ export class UserNotFoundException extends Error {
   }
 }
 
-export class InvalidEmailException extends Error {
+export class UserAlreadyExistsException extends Error {
   constructor() {
-    super('Invalid email');
-    this.name = 'InvalidEmailException';
-  }
-}
-
-export class WeakPasswordException extends Error {
-  constructor() {
-    super('Password is too weak');
-    this.name = 'WeakPasswordException';
+    super('User already exists');
+    this.name = 'UserAlreadyExistsException';
   }
 }
 

@@ -6,10 +6,7 @@ import { User } from '../../domain/entities/user.entity';
 import * as crypto from 'crypto';
 import { UserRole } from '../../domain/entities/user.entity';
 import { PasswordHasher } from '../../infrastructure/security/password-hasher';
-import {
-  InvalidEmailException,
-  WeakPasswordException,
-} from '../../domain/exceptions/user.exceptions';
+import { UserAlreadyExistsException } from '../../domain/exceptions/user.exceptions';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler
@@ -21,19 +18,19 @@ export class RegisterUserHandler
   ) {}
 
   async execute(command: RegisterUserCommand): Promise<void> {
-    if (command.email.length < 5 || !command.email.includes('@')) {
-      throw new InvalidEmailException();
+    const { email, password } = command;
+
+    const userExists = await this.userRepo.findByEmail(email);
+
+    if (userExists) {
+      throw new UserAlreadyExistsException();
     }
 
-    if (command.password.length < 8) {
-      throw new WeakPasswordException();
-    }
-
-    const hashedPassword = await PasswordHasher.hashPassword(command.password);
+    const hashedPassword = await PasswordHasher.hashPassword(password);
 
     const user = new User(
       crypto.randomUUID(),
-      command.email,
+      email,
       hashedPassword,
       UserRole.USER,
       new Date(),
