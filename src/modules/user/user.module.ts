@@ -6,6 +6,10 @@ import { TypeORMUserEntity } from './infrastructure/persistence/typeorm-user.ent
 import { TypeORMUserRepository } from './infrastructure/persistence/typeorm-user.repository';
 import { RegisterUserHandler } from './application/handlers/register-user.handler';
 import { LoginUserHandler } from './application/handlers/login-user.handler';
+import { UpdateUserRoleHandler } from './application/handlers/update-user-role.handler';
+import { DeleteUserHandler } from './application/handlers/delete-user.handler';
+import { ListUsersHandler } from './application/handlers/list-users.handler';
+import { GetUserHandler } from './application/handlers/get-user.handler';
 
 @Module({
   imports: [CqrsModule, TypeOrmModule.forFeature([TypeORMUserEntity])],
@@ -17,6 +21,10 @@ import { LoginUserHandler } from './application/handlers/login-user.handler';
     },
     RegisterUserHandler,
     LoginUserHandler,
+    ListUsersHandler,
+    GetUserHandler,
+    UpdateUserRoleHandler,
+    DeleteUserHandler,
   ],
 })
 export class UserModule {}
