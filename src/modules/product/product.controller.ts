@@ -17,9 +17,9 @@ import { GetProductQuery } from './application/queries/get-product.query';
 import { ListProductsQuery } from './application/queries/list-products.query';
 import { CreateProductDTO } from './dtos/create-product.dto';
 import { AuthGuard } from '../user/infrastructure/security/auth.guard';
+import { PublicGuard } from '../user/infrastructure/security/public.guard';
 
 @Controller('products')
-@UseGuards(AuthGuard)
 export class ProductController {
   constructor(
     private readonly commandBus: CommandBus,
@@ -27,6 +27,7 @@ export class ProductController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   async createProduct(@Body() dto: CreateProductDTO): Promise<void> {
     const { name, description, price, stock } = dto;
     await this.commandBus.execute(
@@ -35,11 +36,13 @@ export class ProductController {
   }
 
   @Get(':id')
+  @UseGuards(PublicGuard)
   async getProduct(@Param('id') id: string): Promise<any> {
     return this.queryBus.execute(new GetProductQuery(id));
   }
 
   @Get()
+  @UseGuards(PublicGuard)
   async listProducts(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
@@ -48,6 +51,7 @@ export class ProductController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard)
   async updateProduct(
     @Param('id') id: string,
     @Body() dto: CreateProductDTO,
@@ -59,6 +63,7 @@ export class ProductController {
   }
 
   @Delete(':id')
+  @UseGuards(AuthGuard)
   async deleteProduct(@Param('id') id: string): Promise<void> {
     await this.commandBus.execute(new DeleteProductCommand(id));
   }
