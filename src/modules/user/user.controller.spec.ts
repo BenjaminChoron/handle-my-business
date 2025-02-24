@@ -3,7 +3,6 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { Test, TestingModule } from '@nestjs/testing';
 
 import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
-import { RoleGuard } from '../auth/infrastructure/security/role.guard';
 import { UserController } from './user.controller';
 
 jest.mock('../auth/infrastructure/security/role.guard', () => ({

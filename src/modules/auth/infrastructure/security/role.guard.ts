@@ -8,6 +8,7 @@ export class RoleGuard implements CanActivate {
 
   constructor(private readonly requiredRole: string) {
     this.jwtSecret = process.env.JWT_SECRET ?? '';
+
     if (!this.jwtSecret) {
       throw new JwtSecretNotDefinedException();
     }

@@ -1,14 +1,14 @@
 import {
-  ExceptionFilter,
-  Catch,
   ArgumentsHost,
+  Catch,
+  ExceptionFilter,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import { Response } from 'express';
 import {
-  ProductNotFoundException,
   InvalidProductDataException,
+  ProductNotFoundException,
 } from '../../modules/product/domain/exceptions/product.exceptions';
 import {
   UserAlreadyExistsException,

@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { GetUserQuery } from '../queries/get-user.query';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserNotFoundException } from '../../domain/exceptions/user.exceptions';

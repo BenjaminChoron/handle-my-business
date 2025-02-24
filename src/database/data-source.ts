@@ -13,6 +13,7 @@ const getEnvVar = (prod: string, test: string): string => {
     throw new Error(
       `Missing environment variable: ${process.env.NODE_ENV === 'test' ? test : prod}`,
     );
+
   return value;
 };
 

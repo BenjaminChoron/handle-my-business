@@ -1,4 +1,4 @@
-import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
+import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
 import { ListUsersQuery } from '../queries/list-users.query';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { Inject } from '@nestjs/common';

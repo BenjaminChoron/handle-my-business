@@ -3,10 +3,8 @@ import {
   Controller,
   Delete,
   Get,
-  HttpCode,
   Param,
-  Patch,
-  Post,
+  Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -20,10 +18,6 @@ import { DeleteUserCommand } from './application/commands/delete-user.command';
 import { UserRole } from './domain/entities/user.entity';
 
 // Auth
-import { RegisterUserCommand } from '../auth/application/commands/register-user.command';
-import { LoginUserCommand } from '../auth/application/commands/login-user.command';
-import { RegisterUserDTO } from '../auth/dtos/register-user.dto';
-import { LoginUserDTO } from '../auth/dtos/login-user.dto';
 import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
 import { RoleGuard } from '../auth/infrastructure/security/role.guard';
 
@@ -46,7 +40,7 @@ export class UserController {
     return this.queryBus.execute(new GetUserQuery(id));
   }
 
-  @Patch(':id/role')
+  @Put(':id/role')
   @UseGuards(AuthGuard, new RoleGuard(UserRole.ADMIN))
   async updateUserRole(
     @Param('id') id: string,
