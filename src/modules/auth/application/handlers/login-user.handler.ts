@@ -1,15 +1,15 @@
 // src/modules/user/application/handlers/login-user.handler.ts
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { LoginUserCommand } from '../commands/login-user.command';
-import { UserRepository } from '../../domain/repositories/user.repository';
-import { PasswordHasher } from '../../infrastructure/security/password-hasher';
-import { JwtService } from '../../infrastructure/security/jwt.service';
+import { UserRepository } from '../../../user/domain/repositories/user.repository';
+import { PasswordHasher } from '../../../auth/infrastructure/security/password-hasher';
+import { JwtService } from '../../../auth/infrastructure/security/jwt.service';
 import { Inject } from '@nestjs/common';
 import {
   InvalidLoginCredentialsException,
   JwtExpiresInNotDefinedException,
   JwtSecretNotDefinedException,
-} from '../../domain/exceptions/user.exceptions';
+} from '../../../auth/domain/exceptions/auth.exceptions';
 
 @CommandHandler(LoginUserCommand)
 export class LoginUserHandler implements ICommandHandler<LoginUserCommand> {

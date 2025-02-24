@@ -11,17 +11,21 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { RegisterUserCommand } from './application/commands/register-user.command';
-import { RegisterUserDTO } from './dtos/register-user.dto';
-import { LoginUserCommand } from './application/commands/login-user.command';
-import { LoginUserDTO } from './dtos/login-user.dto';
-import { RoleGuard } from './infrastructure/security/role.guard';
-import { AuthGuard } from './infrastructure/security/auth.guard';
+
+// User
 import { ListUsersQuery } from './application/queries/list-users.query';
 import { GetUserQuery } from './application/queries/get-user.query';
 import { UpdateUserRoleCommand } from './application/commands/update-user-role.command';
 import { DeleteUserCommand } from './application/commands/delete-user.command';
 import { UserRole } from './domain/entities/user.entity';
+
+// Auth
+import { RegisterUserCommand } from '../auth/application/commands/register-user.command';
+import { LoginUserCommand } from '../auth/application/commands/login-user.command';
+import { RegisterUserDTO } from '../auth/dtos/register-user.dto';
+import { LoginUserDTO } from '../auth/dtos/login-user.dto';
+import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
+import { RoleGuard } from '../auth/infrastructure/security/role.guard';
 
 @Controller('users')
 export class UserController {
@@ -29,19 +33,6 @@ export class UserController {
     private readonly commandBus: CommandBus,
     private readonly queryBus: QueryBus,
   ) {}
-
-  @Post('register')
-  async registerUser(@Body() dto: RegisterUserDTO): Promise<void> {
-    const { email, password } = dto;
-    await this.commandBus.execute(new RegisterUserCommand(email, password));
-  }
-
-  @Post('login')
-  @HttpCode(200)
-  async login(@Body() dto: LoginUserDTO): Promise<{ accessToken: string }> {
-    const { email, password } = dto;
-    return this.commandBus.execute(new LoginUserCommand(email, password));
-  }
 
   @Get()
   @UseGuards(AuthGuard, new RoleGuard(UserRole.ADMIN))

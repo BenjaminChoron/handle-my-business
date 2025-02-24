@@ -1,12 +1,16 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { Inject } from '@nestjs/common';
-import { RegisterUserCommand } from '../commands/register-user.command';
-import { UserRepository } from '../../domain/repositories/user.repository';
-import { User } from '../../domain/entities/user.entity';
 import * as crypto from 'crypto';
-import { UserRole } from '../../domain/entities/user.entity';
-import { PasswordHasher } from '../../infrastructure/security/password-hasher';
-import { UserAlreadyExistsException } from '../../domain/exceptions/user.exceptions';
+
+// Auth
+import { RegisterUserCommand } from '../commands/register-user.command';
+import { PasswordHasher } from '../../../auth/infrastructure/security/password-hasher';
+
+// User
+import { UserRepository } from '../../../user/domain/repositories/user.repository';
+import { User } from '../../../user/domain/entities/user.entity';
+import { UserRole } from '../../../user/domain/entities/user.entity';
+import { UserAlreadyExistsException } from '../../../user/domain/exceptions/user.exceptions';
 
 @CommandHandler(RegisterUserCommand)
 export class RegisterUserHandler

@@ -10,14 +10,18 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+
+// Product
 import { CreateProductCommand } from './application/commands/create-product.command';
 import { UpdateProductCommand } from './application/commands/update-product.command';
 import { DeleteProductCommand } from './application/commands/delete-product.command';
 import { GetProductQuery } from './application/queries/get-product.query';
 import { ListProductsQuery } from './application/queries/list-products.query';
 import { CreateProductDTO } from './dtos/create-product.dto';
-import { AuthGuard } from '../user/infrastructure/security/auth.guard';
-import { PublicGuard } from '../user/infrastructure/security/public.guard';
+
+// Auth
+import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
+import { PublicGuard } from '../auth/infrastructure/security/public.guard';
 
 @Controller('products')
 export class ProductController {

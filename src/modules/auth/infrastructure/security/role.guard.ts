@@ -1,12 +1,12 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from './jwt.service';
-import { JwtSecretNotDefinedException } from '../../domain/exceptions/user.exceptions';
+import { JwtSecretNotDefinedException } from '../../domain/exceptions/auth.exceptions';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   private readonly jwtSecret: string;
 
-  constructor() {
+  constructor(private readonly requiredRole: string) {
     this.jwtSecret = process.env.JWT_SECRET ?? '';
     if (!this.jwtSecret) {
       throw new JwtSecretNotDefinedException();
@@ -21,12 +21,13 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    try {
-      const decoded = JwtService.verifyToken(token, this.jwtSecret);
-      request.user = decoded;
-      return true;
-    } catch {
+    const decoded = JwtService.verifyToken(token, this.jwtSecret);
+    const user = decoded;
+
+    if (!user || user.role !== this.requiredRole) {
       return false;
     }
+
+    return true;
   }
 }

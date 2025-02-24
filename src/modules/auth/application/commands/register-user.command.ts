@@ -1,4 +1,4 @@
-import { UserRole } from '../../domain/entities/user.entity';
+import { UserRole } from 'src/modules/user/domain/entities/user.entity';
 
 export class RegisterUserCommand {
   constructor(

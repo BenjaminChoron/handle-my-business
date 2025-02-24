@@ -11,10 +11,10 @@ import {
   InvalidProductDataException,
 } from '../../modules/product/domain/exceptions/product.exceptions';
 import {
-  InvalidLoginCredentialsException,
   UserAlreadyExistsException,
   UserNotFoundException,
 } from 'src/modules/user/domain/exceptions/user.exceptions';
+import { InvalidLoginCredentialsException } from 'src/modules/auth/domain/exceptions/auth.exceptions';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
