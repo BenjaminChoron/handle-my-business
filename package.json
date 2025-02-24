@@ -30,7 +30,8 @@
     "db:reset": "npm run db:drop && npm run migration:run",
     "format:check": "prettier --check \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
-    "security:audit": "npm audit"
+    "security:audit": "npm audit",
+    "prettier": "prettier --write \"src/**/*.ts\""
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
