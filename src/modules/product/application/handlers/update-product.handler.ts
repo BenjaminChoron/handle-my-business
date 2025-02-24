@@ -17,24 +17,22 @@ export class UpdateProductHandler
   ) {}
 
   async execute(command: UpdateProductCommand): Promise<void> {
-    if (command.price < 0) {
+    const { id, price, stock, name, description } = command;
+
+    if (price < 0) {
       throw new InvalidProductDataException('Price cannot be negative');
     }
-    if (command.stock < 0) {
+    if (stock < 0) {
       throw new InvalidProductDataException('Stock cannot be negative');
     }
 
-    const product = await this.productRepo.findById(command.id);
+    const product = await this.productRepo.findById(id);
+
     if (!product) {
-      throw new ProductNotFoundException(command.id);
+      throw new ProductNotFoundException(id);
     }
 
-    product.updateDetails(
-      command.name,
-      command.description,
-      command.price,
-      command.stock,
-    );
+    product.updateDetails(name, description, price, stock);
     await this.productRepo.save(product);
   }
 }

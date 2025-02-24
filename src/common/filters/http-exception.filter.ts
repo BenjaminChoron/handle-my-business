@@ -10,6 +10,11 @@ import {
   ProductNotFoundException,
   InvalidProductDataException,
 } from '../../modules/product/domain/exceptions/product.exceptions';
+import {
+  UserAlreadyExistsException,
+  UserNotFoundException,
+} from 'src/modules/user/domain/exceptions/user.exceptions';
+import { InvalidLoginCredentialsException } from 'src/modules/auth/domain/exceptions/auth.exceptions';
 
 @Catch()
 export class GlobalExceptionFilter implements ExceptionFilter {
@@ -20,15 +25,22 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let status = HttpStatus.INTERNAL_SERVER_ERROR;
     let message = 'Internal server error';
 
-    if (exception instanceof ProductNotFoundException) {
+    if (
+      exception instanceof ProductNotFoundException ||
+      exception instanceof UserNotFoundException
+    ) {
       status = HttpStatus.NOT_FOUND;
       message = exception.message;
-    } else if (exception instanceof InvalidProductDataException) {
+    } else if (
+      exception instanceof UserAlreadyExistsException ||
+      exception instanceof InvalidProductDataException ||
+      exception instanceof InvalidLoginCredentialsException
+    ) {
       status = HttpStatus.BAD_REQUEST;
       message = exception.message;
     } else if (exception instanceof HttpException) {
       status = exception.getStatus();
-      message = exception.message;
+      message = exception.getResponse() as string;
     }
 
     response.status(status).json({

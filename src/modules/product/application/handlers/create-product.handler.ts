@@ -16,19 +16,20 @@ export class CreateProductHandler
   ) {}
 
   async execute(command: CreateProductCommand): Promise<void> {
-    if (command.price < 0) {
+    const { price, stock, name, description } = command;
+    if (price < 0) {
       throw new InvalidProductDataException('Price cannot be negative');
     }
-    if (command.stock < 0) {
+    if (stock < 0) {
       throw new InvalidProductDataException('Stock cannot be negative');
     }
 
     const product = new Product(
       crypto.randomUUID(),
-      command.name,
-      command.description,
-      command.price,
-      command.stock,
+      name,
+      description,
+      price,
+      stock,
       new Date(),
       new Date(),
     );
