@@ -38,16 +38,15 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install global dependencies
-        run: npm install -g prettier typescript
-
-      - name: Install project dependencies
-        run: npm install --no-package-lock
+      - name: Install dependencies
+        run: |
+          npm install -g prettier typescript
+          npm install --no-package-lock
         env:
           CI: true
 
       - name: Check code style
-        run: npm run format:check || npm run format
+        run: npm run format:check
 
       - name: Lint code
         run: npm run lint
