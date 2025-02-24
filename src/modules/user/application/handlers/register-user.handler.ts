@@ -1,7 +1,10 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { Inject } from '@nestjs/common';
 import { RegisterUserCommand } from '../commands/register-user.command';
 import { UserRepository } from '../../domain/repositories/user.repository';
 import { User } from '../../domain/entities/user.entity';
+import * as crypto from 'crypto';
+import { UserRole } from '../../domain/entities/user.entity';
 import { PasswordHasher } from '../../infrastructure/security/password-hasher';
 import {
   InvalidEmailException,
@@ -12,7 +15,10 @@ import {
 export class RegisterUserHandler
   implements ICommandHandler<RegisterUserCommand>
 {
-  constructor(private readonly userRepository: UserRepository) {}
+  constructor(
+    @Inject('UserRepository')
+    private readonly userRepo: UserRepository,
+  ) {}
 
   async execute(command: RegisterUserCommand): Promise<void> {
     if (command.email.length < 5 || !command.email.includes('@')) {
@@ -29,11 +35,11 @@ export class RegisterUserHandler
       crypto.randomUUID(),
       command.email,
       hashedPassword,
-      command.role,
+      UserRole.USER,
       new Date(),
       new Date(),
     );
 
-    await this.userRepository.save(user);
+    await this.userRepo.save(user);
   }
 }
