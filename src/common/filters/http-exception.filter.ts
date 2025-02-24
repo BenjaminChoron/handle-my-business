@@ -12,6 +12,7 @@ import {
 } from '../../modules/product/domain/exceptions/product.exceptions';
 import {
   InvalidEmailException,
+  InvalidLoginCredentialsException,
   UserNotFoundException,
   WeakPasswordException,
 } from 'src/modules/user/domain/exceptions/user.exceptions';
@@ -34,7 +35,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     } else if (
       exception instanceof InvalidEmailException ||
       exception instanceof WeakPasswordException ||
-      exception instanceof InvalidProductDataException
+      exception instanceof InvalidProductDataException ||
+      exception instanceof InvalidLoginCredentialsException
     ) {
       status = HttpStatus.BAD_REQUEST;
       message = exception.message;
