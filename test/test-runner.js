@@ -6,7 +6,7 @@ const modules = ['auth', 'user', 'product'];
 function runTests(pattern, options = {}) {
   console.log(`\nRunning ${options.name || pattern} tests:`);
   try {
-    execSync(`jest "${pattern}" --testPathIgnorePatterns=infrastructure`, {
+    execSync(`jest --testMatch="**/${pattern}/**/*.spec.ts" --testPathIgnorePatterns=infrastructure`, {
       stdio: 'inherit',
       env: {
         ...process.env,
@@ -24,7 +24,7 @@ function runTestsInOrder() {
   console.log('Running tests in order...\n');
 
   modules.forEach(module => {
-    runTests(`src/modules/${module}/**/*.spec.ts`, { name: `${module} module` });
+    runTests(`modules/${module}`, { name: `${module} module` });
   });
 }
 
@@ -35,7 +35,7 @@ if (args.includes('--watch')) {
     console.error(`Invalid module: ${module}. Available modules: ${modules.join(', ')}`);
     process.exit(1);
   }
-  execSync(`jest "src/modules/${module}/**/*.spec.ts" --watch --testPathIgnorePatterns=infrastructure`, { stdio: 'inherit' });
+  execSync(`jest --testMatch="**/modules/${module}/**/*.spec.ts" --watch --testPathIgnorePatterns=infrastructure`, { stdio: 'inherit' });
 } else if (args.includes('--coverage')) {
   execSync('jest --coverage --testPathIgnorePatterns=infrastructure', { stdio: 'inherit' });
 } else if (args[0]) {
