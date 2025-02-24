@@ -12,6 +12,8 @@ export class GetProductHandler implements IQueryHandler<GetProductQuery> {
   ) {}
 
   async execute(query: GetProductQuery): Promise<Product | null> {
-    return this.productRepo.findById(query.id);
+    const { id } = query;
+    const product = await this.productRepo.findById(id);
+    return product;
   }
 }

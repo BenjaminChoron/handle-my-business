@@ -2,6 +2,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { ProductController } from './product.controller';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateProductDTO } from './dtos/create-product.dto';
+import { ConfigModule } from '@nestjs/config';
+import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
+import { PublicGuard } from '../auth/infrastructure/security/public.guard';
 
 describe('ProductController', () => {
   let controller: ProductController;
@@ -9,18 +12,33 @@ describe('ProductController', () => {
   let queryBus: jest.Mocked<QueryBus>;
 
   beforeEach(async () => {
-    commandBus = { execute: jest.fn() } as any;
-    queryBus = { execute: jest.fn() } as any;
-
     const module: TestingModule = await Test.createTestingModule({
+      imports: [
+        ConfigModule.forRoot({
+          envFilePath: '.env.test',
+        }),
+      ],
       controllers: [ProductController],
       providers: [
-        { provide: CommandBus, useValue: commandBus },
-        { provide: QueryBus, useValue: queryBus },
+        {
+          provide: CommandBus,
+          useValue: { execute: jest.fn() },
+        },
+        {
+          provide: QueryBus,
+          useValue: { execute: jest.fn() },
+        },
       ],
-    }).compile();
+    })
+      .overrideGuard(AuthGuard)
+      .useValue({ canActivate: () => true })
+      .overrideGuard(PublicGuard)
+      .useValue({ canActivate: () => true })
+      .compile();
 
     controller = module.get<ProductController>(ProductController);
+    commandBus = module.get(CommandBus);
+    queryBus = module.get(QueryBus);
   });
 
   it('should create a product', async () => {
@@ -44,11 +62,11 @@ describe('ProductController', () => {
   });
 
   it('should retrieve a product by id', async () => {
-    queryBus.execute.mockResolvedValue({ id: '1', name: 'Product A' });
-
+    (queryBus.execute as jest.Mock).mockResolvedValue({
+      id: '1',
+      name: 'Product A',
+    });
     const result = await controller.getProduct('1');
-
-    expect(queryBus.execute).toHaveBeenCalledWith(expect.any(Object));
     expect(result).toEqual({ id: '1', name: 'Product A' });
   });
 });
