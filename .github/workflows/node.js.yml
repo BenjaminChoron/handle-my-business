@@ -38,10 +38,11 @@ jobs:
           node-version: '20'
           cache: 'npm'
 
-      - name: Install dependencies
-        run: |
-          npm install -g prettier typescript
-          npm ci
+      - name: Install global dependencies
+        run: npm install -g prettier typescript
+
+      - name: Install project dependencies
+        run: npm install --no-package-lock
         env:
           CI: true
 
@@ -90,7 +91,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-package-lock
 
       - name: Run security audit
         run: |
@@ -116,7 +117,7 @@ jobs:
           cache: 'npm'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install --no-package-lock
 
       - name: Build application
         run: npm run build
