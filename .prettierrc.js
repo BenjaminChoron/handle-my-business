@@ -5,5 +5,8 @@ module.exports = {
   tabWidth: 2,
   semi: true,
   bracketSpacing: true,
-  // Remove the problematic import order options
+  plugins: ['@trivago/prettier-plugin-sort-imports'],
+  importOrder: ['^@nestjs/(.*)$', '^@/(.*)$', '^[./]'],
+  importOrderSeparation: true,
+  importOrderSortSpecifiers: true
 }; 
