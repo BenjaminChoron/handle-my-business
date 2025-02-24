@@ -1,7 +1,7 @@
-import { GetProductHandler } from './get-product.handler';
-import { GetProductQuery } from '../queries/get-product.query';
-import { ProductRepository } from '../../domain/repositories/product.repository';
 import { Product } from '../../domain/entities/product.entity';
+import { ProductRepository } from '../../domain/repositories/product.repository';
+import { GetProductQuery } from '../queries/get-product.query';
+import { GetProductHandler } from './get-product.handler';
 
 describe('GetProductHandler', () => {
   let handler: GetProductHandler;

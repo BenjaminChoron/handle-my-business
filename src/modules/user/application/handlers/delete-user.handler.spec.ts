@@ -1,7 +1,7 @@
-import { DeleteUserHandler } from './delete-user.handler';
-import { DeleteUserCommand } from '../commands/delete-user.command';
-import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserNotFoundException } from '../../domain/exceptions/user.exceptions';
+import { UserRepository } from '../../domain/repositories/user.repository';
+import { DeleteUserCommand } from '../commands/delete-user.command';
+import { DeleteUserHandler } from './delete-user.handler';
 
 describe('DeleteUserHandler', () => {
   let handler: DeleteUserHandler;

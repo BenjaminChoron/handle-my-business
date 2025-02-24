@@ -1,9 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserController } from './user.controller';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { ConfigModule } from '@nestjs/config';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
 import { RoleGuard } from '../auth/infrastructure/security/role.guard';
+import { UserController } from './user.controller';
 
 jest.mock('../auth/infrastructure/security/role.guard', () => ({
   RoleGuard: jest.fn().mockImplementation(() => ({

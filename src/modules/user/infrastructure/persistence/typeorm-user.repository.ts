@@ -81,7 +81,7 @@ export class TypeORMUserRepository implements UserRepository {
         order: { createdAt: 'DESC' },
       });
       return entities.map(
-        entity =>
+        (entity) =>
           new User(
             entity.id,
             entity.email,

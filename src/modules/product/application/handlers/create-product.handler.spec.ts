@@ -1,7 +1,7 @@
-import { CreateProductHandler } from './create-product.handler';
-import { CreateProductCommand } from '../commands/create-product.command';
-import { ProductRepository } from '../../domain/repositories/product.repository';
 import { Product } from '../../domain/entities/product.entity';
+import { ProductRepository } from '../../domain/repositories/product.repository';
+import { CreateProductCommand } from '../commands/create-product.command';
+import { CreateProductHandler } from './create-product.handler';
 
 describe('CreateProductHandler', () => {
   let handler: CreateProductHandler;

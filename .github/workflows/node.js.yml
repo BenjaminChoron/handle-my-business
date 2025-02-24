@@ -46,7 +46,7 @@ jobs:
           CI: true
 
       - name: Check code style
-        run: npm run format:check
+        run: npm run prettier && git diff --exit-code
 
       - name: Lint code
         run: npm run lint

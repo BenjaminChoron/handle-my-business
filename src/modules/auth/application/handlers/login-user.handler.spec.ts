@@ -1,10 +1,12 @@
-import { LoginUserHandler } from './login-user.handler';
-import { LoginUserCommand } from '../commands/login-user.command';
-import { InvalidLoginCredentialsException } from '../../domain/exceptions/auth.exceptions';
+import { UserRepository } from 'src/modules/user/domain/repositories/user.repository';
+
 import { ConfigModule } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
-import { UserRepository } from 'src/modules/user/domain/repositories/user.repository';
+
+import { InvalidLoginCredentialsException } from '../../domain/exceptions/auth.exceptions';
 import { PasswordHasher } from '../../infrastructure/security/password-hasher';
+import { LoginUserCommand } from '../commands/login-user.command';
+import { LoginUserHandler } from './login-user.handler';
 
 jest.mock('../../infrastructure/security/password-hasher', () => ({
   PasswordHasher: {

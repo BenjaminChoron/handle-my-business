@@ -1,8 +1,8 @@
-import { UpdateUserRoleHandler } from './update-user-role.handler';
-import { UpdateUserRoleCommand } from '../commands/update-user-role.command';
-import { UserRepository } from '../../domain/repositories/user.repository';
-import { UserNotFoundException } from '../../domain/exceptions/user.exceptions';
 import { UserRole } from '../../domain/entities/user.entity';
+import { UserNotFoundException } from '../../domain/exceptions/user.exceptions';
+import { UserRepository } from '../../domain/repositories/user.repository';
+import { UpdateUserRoleCommand } from '../commands/update-user-role.command';
+import { UpdateUserRoleHandler } from './update-user-role.handler';
 
 describe('UpdateUserRoleHandler', () => {
   let handler: UpdateUserRoleHandler;

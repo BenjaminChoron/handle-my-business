@@ -1,11 +1,13 @@
+import * as crypto from 'crypto';
+import { Repository } from 'typeorm';
+
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { Test } from '@nestjs/testing';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { TypeORMProductRepository } from './typeorm-product.repository';
-import { TypeORMProductEntity } from './typeorm-product.entity';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { Repository } from 'typeorm';
-import * as crypto from 'crypto';
+
 import { Product } from '../../domain/entities/product.entity';
+import { TypeORMProductEntity } from './typeorm-product.entity';
+import { TypeORMProductRepository } from './typeorm-product.repository';
 
 describe('TypeORMProductRepository', () => {
   let repository: TypeORMProductRepository;

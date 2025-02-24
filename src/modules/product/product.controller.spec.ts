@@ -1,10 +1,11 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ProductController } from './product.controller';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateProductDTO } from './dtos/create-product.dto';
 import { ConfigModule } from '@nestjs/config';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
+
 import { AuthGuard } from '../auth/infrastructure/security/auth.guard';
 import { PublicGuard } from '../auth/infrastructure/security/public.guard';
+import { CreateProductDTO } from './dtos/create-product.dto';
+import { ProductController } from './product.controller';
 
 describe('ProductController', () => {
   let controller: ProductController;

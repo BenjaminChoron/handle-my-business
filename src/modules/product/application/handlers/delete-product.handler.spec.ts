@@ -1,7 +1,7 @@
-import { DeleteProductHandler } from './delete-product.handler';
-import { DeleteProductCommand } from '../commands/delete-product.command';
-import { ProductRepository } from '../../domain/repositories/product.repository';
 import { Product } from '../../domain/entities/product.entity';
+import { ProductRepository } from '../../domain/repositories/product.repository';
+import { DeleteProductCommand } from '../commands/delete-product.command';
+import { DeleteProductHandler } from './delete-product.handler';
 
 describe('DeleteProductHandler', () => {
   let handler: DeleteProductHandler;

@@ -1,6 +1,7 @@
-import { DataSource, DataSourceOptions } from 'typeorm';
 import { config } from 'dotenv';
 import { join } from 'path';
+import { DataSource, DataSourceOptions } from 'typeorm';
+
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 config();

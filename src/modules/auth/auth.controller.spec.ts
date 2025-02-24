@@ -1,9 +1,10 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { AuthController } from './auth.controller';
-import { CommandBus } from '@nestjs/cqrs';
 import { ConfigModule } from '@nestjs/config';
-import { RegisterUserDTO } from './dtos/register-user.dto';
+import { CommandBus } from '@nestjs/cqrs';
+import { Test, TestingModule } from '@nestjs/testing';
+
+import { AuthController } from './auth.controller';
 import { LoginUserDTO } from './dtos/login-user.dto';
+import { RegisterUserDTO } from './dtos/register-user.dto';
 
 describe('AuthController', () => {
   let controller: AuthController;

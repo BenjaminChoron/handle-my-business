@@ -1,6 +1,6 @@
-import { ListUsersHandler } from './list-users.handler';
-import { ListUsersQuery } from '../queries/list-users.query';
 import { UserRepository } from '../../domain/repositories/user.repository';
+import { ListUsersQuery } from '../queries/list-users.query';
+import { ListUsersHandler } from './list-users.handler';
 
 describe('ListUsersHandler', () => {
   let handler: ListUsersHandler;

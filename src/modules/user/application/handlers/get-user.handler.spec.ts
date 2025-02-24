@@ -1,7 +1,7 @@
-import { GetUserHandler } from './get-user.handler';
-import { GetUserQuery } from '../queries/get-user.query';
-import { UserRepository } from '../../domain/repositories/user.repository';
 import { UserNotFoundException } from '../../domain/exceptions/user.exceptions';
+import { UserRepository } from '../../domain/repositories/user.repository';
+import { GetUserQuery } from '../queries/get-user.query';
+import { GetUserHandler } from './get-user.handler';
 
 describe('GetUserHandler', () => {
   let handler: GetUserHandler;

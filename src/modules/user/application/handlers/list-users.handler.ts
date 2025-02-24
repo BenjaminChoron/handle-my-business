@@ -14,7 +14,7 @@ export class ListUsersHandler implements IQueryHandler<ListUsersQuery> {
     const { page, limit } = query;
     const users = await this.userRepository.findAll(page, limit);
 
-    return users.map(user => ({
+    return users.map((user) => ({
       id: user.id,
       email: user.email,
       role: user.role,

@@ -1,7 +1,7 @@
-import { ListProductsHandler } from './list-products.handler';
-import { ListProductsQuery } from '../queries/list-products.query';
-import { ProductRepository } from '../../domain/repositories/product.repository';
 import { Product } from '../../domain/entities/product.entity';
+import { ProductRepository } from '../../domain/repositories/product.repository';
+import { ListProductsQuery } from '../queries/list-products.query';
+import { ListProductsHandler } from './list-products.handler';
 
 describe('ListProductsHandler', () => {
   let handler: ListProductsHandler;

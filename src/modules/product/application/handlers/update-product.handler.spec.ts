@@ -1,8 +1,8 @@
-import { UpdateProductHandler } from './update-product.handler';
-import { UpdateProductCommand } from '../commands/update-product.command';
-import { ProductRepository } from '../../domain/repositories/product.repository';
 import { Product } from '../../domain/entities/product.entity';
 import { ProductNotFoundException } from '../../domain/exceptions/product.exceptions';
+import { ProductRepository } from '../../domain/repositories/product.repository';
+import { UpdateProductCommand } from '../commands/update-product.command';
+import { UpdateProductHandler } from './update-product.handler';
 
 describe('UpdateProductHandler', () => {
   let handler: UpdateProductHandler;

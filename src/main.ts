@@ -1,8 +1,9 @@
-import { NestFactory } from '@nestjs/core';
 import { Logger } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import { NestFactory } from '@nestjs/core';
+
+import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
 
 async function bootstrap() {
