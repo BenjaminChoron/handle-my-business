@@ -27,7 +27,11 @@
     "migration:run": "npm run typeorm -- migration:run",
     "migration:revert": "npm run typeorm -- migration:revert",
     "db:drop": "npm run typeorm -- schema:drop",
-    "db:reset": "npm run db:drop && npm run migration:run"
+    "db:reset": "npm run db:drop && npm run migration:run",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "security:audit": "npm audit",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
