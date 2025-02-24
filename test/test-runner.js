@@ -1,5 +1,4 @@
-const { execSync } = require('child_process');
-const path = require('path');
+const { execSync } = require('child_process');;
 
 const modules = ['auth', 'user', 'product'];
 
