@@ -5,7 +5,7 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: ['main', 'Improve-CI-CD']
+    branches: ['main', 'improve-CI-CD']
   pull_request:
     branches: ['main']
 
