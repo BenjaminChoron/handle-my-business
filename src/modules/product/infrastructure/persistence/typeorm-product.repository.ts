@@ -65,7 +65,7 @@ export class TypeORMProductRepository implements ProductRepository {
       });
 
       return entities.map(
-        entity =>
+        (entity) =>
           new Product(
             entity.id,
             entity.name,
