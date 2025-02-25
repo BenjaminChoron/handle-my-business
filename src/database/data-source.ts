@@ -3,28 +3,30 @@ import { config } from 'dotenv';
 import { join } from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
-config();
+// Load the appropriate .env file based on NODE_ENV
+config({
+  path: process.env.NODE_ENV === 'test' ? '.env.test' : '.env',
+});
 
-const getEnvVar = (prod: string, test: string): string => {
-  const value =
-    process.env.NODE_ENV === 'test' ? process.env[test] : process.env[prod];
-  if (!value)
-    throw new Error(
-      `Missing environment variable: ${process.env.NODE_ENV === 'test' ? test : prod}`,
-    );
-
-  return value;
-};
+if (
+  !process.env.DATABASE_HOST ||
+  !process.env.DATABASE_PORT ||
+  !process.env.DATABASE_NAME ||
+  !process.env.DATABASE_USER ||
+  !process.env.DATABASE_PASSWORD
+) {
+  throw new Error('Missing required database environment variables');
+}
 
 const isDevelopment = process.env.NODE_ENV === 'development';
 
 const dataSourceConfig: DataSourceOptions = {
   type: 'postgres',
-  host: getEnvVar('DEV_POSTGRES_HOST', 'TEST_POSTGRES_HOST'),
-  port: parseInt(getEnvVar('DEV_POSTGRES_PORT', 'TEST_POSTGRES_PORT'), 10),
-  database: getEnvVar('DEV_POSTGRES_DB', 'TEST_POSTGRES_DB'),
-  username: getEnvVar('DEV_POSTGRES_USER', 'TEST_POSTGRES_USER'),
-  password: getEnvVar('DEV_POSTGRES_PASSWORD', 'TEST_POSTGRES_PASSWORD'),
+  host: process.env.DATABASE_HOST,
+  port: parseInt(process.env.DATABASE_PORT, 10),
+  database: process.env.DATABASE_NAME,
+  username: process.env.DATABASE_USER,
+  password: process.env.DATABASE_PASSWORD,
   synchronize: false,
   logging: isDevelopment,
   logger: isDevelopment ? 'advanced-console' : 'simple-console',
