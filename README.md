@@ -1,108 +1,183 @@
-# Handle My Business
+# 💼 Handle My Business
 
-A NestJS application for managing business operations.
+A robust NestJS application implementing Clean Architecture and CQRS patterns for business management.
 
-## Description
+## ✨ Features
 
-This application is built using NestJS and follows Domain-Driven Design (DDD) and CQRS patterns. It provides a robust API for managing products and other business operations.
-
-## Features
-
-- Product Management (CRUD operations)
-- CQRS implementation
-- PostgreSQL database integration
-- Clean Architecture principles
+- Clean Architecture implementation
+- CQRS pattern
+- Authentication & Authorization
+- Product Management
+- User Management
+- PostgreSQL database
 - Comprehensive test coverage
+- CI/CD pipeline
 
-## Prerequisites
+## 🔧 Prerequisites
 
-- Node.js (v18 or higher)
-- PostgreSQL
+- Node.js (v20+)
+- PostgreSQL (v16+)
+- npm
 - Docker (optional)
 
-## Installation
+## 🐳 Quick Start with Docker
 
 ```bash
+# Start development database
+docker-compose up postgres-dev -d
+
+# Start test database
+docker-compose up postgres-test -d
+
+# View logs
+docker-compose logs -f
+
+# Stop all containers
+docker-compose down
+
+# Remove volumes
+docker-compose down -v
+```
+
+## 🚀 Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/handle-my-business.git
+
 # Install dependencies
-$ npm install
-
-# Copy environment file
-$ cp .env.example .env
-
-# Configure your environment variables in .env
+npm install
 ```
 
-## Running the app
+## ⚙️ Environment Setup
 
-```bash
-# Development
-$ npm run start
+Create `.env` and `.env.test` files in the root directory:
 
-# Watch mode
-$ npm run start:dev
+```env
+# Development environment (.env)
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=1h
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+DATABASE_USER=dev_user
+DATABASE_PASSWORD=dev_password
+DATABASE_NAME=dev_db
 
-# Production mode
-$ npm run start:prod
+# Test environment (.env.test)
+JWT_SECRET=test_secret_key
+JWT_EXPIRES_IN=1h
+DATABASE_HOST=localhost
+DATABASE_PORT=5433
+DATABASE_USER=test_user
+DATABASE_PASSWORD=test_password
+DATABASE_NAME=test_db
 ```
 
-## Database
+> Note: When using Docker, the database ports are fixed to 5432 (dev) and 5433 (test).
+
+## 🗄️ Database Setup
 
 ```bash
-# Run database migrations
-$ npm run migration:run
+# Using Docker
+docker-compose up postgres-dev -d   # For development
+docker-compose up postgres-test -d   # For testing
+
+# Using local PostgreSQL
+# Run migrations
+npm run migration:run
 
 # Generate a new migration
-$ npm run migration:generate --name=your-migration-name
+npm run migration:generate --name=YourMigrationName
 
-# Reset database (drops all tables and reruns migrations)
-$ npm run db:reset
+# Revert last migration
+npm run migration:revert
+
+# Reset database (drop + run migrations)
+npm run db:reset
 ```
 
-## Test
+## 🏃 Running the Application
 
 ```bash
-# Unit tests
-$ npm run test
+# Development mode
+npm run start:dev
 
-# Test coverage
-$ npm run test:cov
+# Production mode
+npm run build
+npm run start:prod
 
-# E2E tests
-$ npm run test:e2e
+# Debug mode
+npm run start:debug
 ```
 
-## Project Structure
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run specific module tests
+npm run test:auth
+npm run test:user
+npm run test:product
+
+# Test coverage
+npm run test:cov
+
+# E2E tests
+npm run test:e2e
+```
+
+## 📊 Code Quality
+
+```bash
+# Lint code
+npm run lint
+
+# Format code
+npm run prettier
+
+# Type check
+npm run typecheck
+
+# Security audit
+npm run security:audit
+```
+
+## 📁 Project Structure
 
 ```
 src/
-├── modules/                    # Feature modules
-│   └── product/                # Product module
-│       ├── application/        # Application layer (commands, queries, handlers)
-│       ├── domain/             # Domain layer (entities, repositories)
-│       └── infrastructure/     # Infrastructure layer (database, external services)
-├── database/                   # Database configurations and migrations
-└── main.ts                     # Application entry point
+├── common/               # Shared utilities, filters, etc.
+├── database/             # Database configuration and migrations
+├── modules/              # Feature modules
+│   ├── auth/             # Authentication module
+│   ├── product/          # Product management
+│   └── user/             # User management
+└── main.ts               # Application entry point
 ```
 
-## Architecture
+## 🏗️ Architecture
 
-This project follows Clean Architecture principles and CQRS pattern:
+This project follows Clean Architecture principles:
 
-- **Domain Layer**: Contains business logic and entities
-- **Application Layer**: Implements use cases using CQRS
-- **Infrastructure Layer**: Handles external concerns (database, external services)
+- **Domain Layer**: Business rules and entities
+- **Application Layer**: Use cases and business logic
+- **Infrastructure Layer**: External concerns (database, framework, etc.)
+- **Interface Layer**: Controllers and DTOs
 
-## Contributing
+## 👥 Contributing
 
-1. Create a feature branch
-2. Commit your changes
-3. Push to the branch
-4. Create a Pull Request
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-## License
+## 📄 License
 
-This project is is unlicensed.
+This project is unlicensed.
 
-## Author
+## 👨‍💻 Author
 
 This project is developed by [@BenjaminChoron](https://github.com/BenjaminChoron).
