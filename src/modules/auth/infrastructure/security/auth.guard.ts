@@ -8,6 +8,7 @@ export class AuthGuard implements CanActivate {
 
   constructor() {
     this.jwtSecret = process.env.JWT_SECRET ?? '';
+
     if (!this.jwtSecret) {
       throw new JwtSecretNotDefinedException();
     }
@@ -24,6 +25,7 @@ export class AuthGuard implements CanActivate {
     try {
       const decoded = JwtService.verifyToken(token, this.jwtSecret);
       request.user = decoded;
+
       return true;
     } catch {
       return false;

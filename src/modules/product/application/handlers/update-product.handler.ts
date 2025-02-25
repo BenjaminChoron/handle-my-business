@@ -3,8 +3,8 @@ import { Inject } from '@nestjs/common';
 import { UpdateProductCommand } from '../commands/update-product.command';
 import { ProductRepository } from '../../domain/repositories/product.repository';
 import {
-  ProductNotFoundException,
   InvalidProductDataException,
+  ProductNotFoundException,
 } from '../../domain/exceptions/product.exceptions';
 
 @CommandHandler(UpdateProductCommand)
@@ -22,6 +22,7 @@ export class UpdateProductHandler
     if (price < 0) {
       throw new InvalidProductDataException('Price cannot be negative');
     }
+
     if (stock < 0) {
       throw new InvalidProductDataException('Stock cannot be negative');
     }

@@ -1,11 +1,11 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Param,
   Post,
   Put,
-  Delete,
   Query,
   UseGuards,
 } from '@nestjs/common';
@@ -48,8 +48,8 @@ export class ProductController {
   @Get()
   @UseGuards(PublicGuard)
   async listProducts(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query('page') page = 1,
+    @Query('limit') limit = 10,
   ): Promise<any[]> {
     return this.queryBus.execute(new ListProductsQuery(page, limit));
   }

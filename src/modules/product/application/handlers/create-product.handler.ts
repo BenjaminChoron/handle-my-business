@@ -17,9 +17,11 @@ export class CreateProductHandler
 
   async execute(command: CreateProductCommand): Promise<void> {
     const { price, stock, name, description } = command;
+
     if (price < 0) {
       throw new InvalidProductDataException('Price cannot be negative');
     }
+
     if (stock < 0) {
       throw new InvalidProductDataException('Stock cannot be negative');
     }

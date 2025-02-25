@@ -80,6 +80,7 @@ export class TypeORMUserRepository implements UserRepository {
         take: limit,
         order: { createdAt: 'DESC' },
       });
+
       return entities.map(
         (entity) =>
           new User(
@@ -101,6 +102,7 @@ export class TypeORMUserRepository implements UserRepository {
   async deleteById(id: string): Promise<void> {
     try {
       const result = await this.userRepo.delete(id);
+
       if (result.affected === 0) {
         throw new UserNotFoundException(id);
       }
@@ -108,6 +110,7 @@ export class TypeORMUserRepository implements UserRepository {
       if (error instanceof UserNotFoundException) {
         throw error;
       }
+
       throw new Error(
         `Failed to delete user: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );
