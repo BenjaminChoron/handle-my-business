@@ -36,6 +36,7 @@ export class TypeORMProductRepository implements ProductRepository {
   async findById(id: string): Promise<Product | null> {
     try {
       const entity = await this.productRepo.findOneBy({ id });
+
       if (!entity) {
         return null;
       }
@@ -65,7 +66,7 @@ export class TypeORMProductRepository implements ProductRepository {
       });
 
       return entities.map(
-        entity =>
+        (entity) =>
           new Product(
             entity.id,
             entity.name,
@@ -86,6 +87,7 @@ export class TypeORMProductRepository implements ProductRepository {
   async deleteById(id: string): Promise<void> {
     try {
       const result = await this.productRepo.delete(id);
+
       if (result.affected === 0) {
         throw new ProductNotFoundException(id);
       }
@@ -93,6 +95,7 @@ export class TypeORMProductRepository implements ProductRepository {
       if (error instanceof ProductNotFoundException) {
         throw error;
       }
+
       throw new Error(
         `Failed to delete product: ${error instanceof Error ? error.message : 'Unknown error'}`,
       );

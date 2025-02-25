@@ -14,6 +14,7 @@ export class ListProductsHandler implements IQueryHandler<ListProductsQuery> {
   async execute(query: ListProductsQuery): Promise<Product[]> {
     const { page, limit } = query;
     const products = await this.productRepo.findAll(page, limit);
+
     return products;
   }
 }

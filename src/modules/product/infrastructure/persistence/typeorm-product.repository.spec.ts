@@ -21,11 +21,11 @@ describe('TypeORMProductRepository', () => {
           imports: [ConfigModule],
           useFactory: (configService: ConfigService) => ({
             type: 'postgres',
-            host: configService.get('TEST_POSTGRES_HOST')!,
-            port: parseInt(configService.get('TEST_POSTGRES_PORT')!),
-            username: configService.get('TEST_POSTGRES_USER')!,
-            password: configService.get('TEST_POSTGRES_PASSWORD')!,
-            database: configService.get('TEST_POSTGRES_DB')!,
+            host: configService.get('TEST_POSTGRES_HOST'),
+            port: parseInt(configService.get('TEST_POSTGRES_PORT') || '5432'),
+            username: configService.get('TEST_POSTGRES_USER'),
+            password: configService.get('TEST_POSTGRES_PASSWORD'),
+            database: configService.get('TEST_POSTGRES_DB'),
             entities: [TypeORMProductEntity],
             synchronize: true,
           }),
@@ -48,7 +48,7 @@ describe('TypeORMProductRepository', () => {
     await typeormRepository.clear();
   });
 
-  it('should save and retrieve a product', async () => {
+  it('should save and retrieve a product with correct properties', async () => {
     const productId = crypto.randomUUID();
     const product = new Product(
       productId,
@@ -62,8 +62,13 @@ describe('TypeORMProductRepository', () => {
 
     await repository.save(product);
 
-    const fetchedProduct = await repository.findById(productId);
-    expect(fetchedProduct).toEqual(product);
+    const savedProduct = await repository.findById(productId);
+    expect(savedProduct).toBeDefined();
+    expect(savedProduct?.id).toBe(product.id);
+    expect(savedProduct?.name).toBe(product.name);
+    expect(savedProduct?.price).toBe(product.price);
+    expect(savedProduct?.stock).toBe(product.stock);
+    expect(savedProduct?.description).toBe(product.description);
   });
 
   it('should delete a product by id', async () => {
